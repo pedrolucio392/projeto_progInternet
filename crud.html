@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catálogo de produtos</title>
+  </head>
+  <body>
+    <script>
+      class Produto {
+        constructor(nome, preco, descricao) {
+          this.nome = nome;
+          this.preco = preco;
+          this.descricao = descricao;
+        }
+      }
+
+      class Catalogo {
+        constructor() {
+          this.produtos = [];
+        }
+
+        adicionarProduto(produto) {
+          this.produtos.push(produto);
+          alert("Produto adicionado com sucesso!");
+        }
+
+        buscarProduto(nome) {
+          const produtoEncontrado = this.produtos.find(
+            (produto) => produto.nome.toLowerCase() === nome.toLowerCase()
+          );
+          if (produtoEncontrado) {
+            alert(
+              `Produto encontrado:
+              \nNome: ${produtoEncontrado.nome}
+              \nPreço: R$${produtoEncontrado.preco.toFixed(2)}
+              \nDescrição: ${produtoEncontrado.descricao}`
+            );
+          } else {
+            alert(`Produto '${nome}' não encontrado no catálogo.`);
+          }
+        }
+
+        atualizarProduto(nome, novoPreco, novaDescricao) {
+          const produtoEncontrado = this.produtos.find(
+            (produto) => produto.nome.toLowerCase() === nome.toLowerCase()
+          );
+          if (produtoEncontrado) {
+            produtoEncontrado.preco = novoPreco;
+            produtoEncontrado.descricao = novaDescricao;
+            alert(
+              `Informações do produto '${produtoEncontrado.nome}' atualizadas.`
+            );
+          } else {
+            alert(`Produto '${nome}' não encontrado no catálogo.`);
+          }
+        }
+
+        visualizarTodosOsProdutos() {
+          alert("Produtos no catálogo:");
+          this.produtos.forEach((produto) => {
+            alert(
+              `Nome: ${produto.nome}
+              \nPreço: R$${produto.preco.toFixed(2)}
+              \nDescrição: ${produto.descricao}\n`
+            );
+          });
+        }
+
+        removerProduto(nome) {
+          const index = this.produtos.findIndex(
+            (produto) => produto.nome.toLowerCase() === nome.toLowerCase()
+          );
+          if (index !== -1) {
+            const produtoRemovido = this.produtos.splice(index, 1)[0];
+            alert(`Produto '${produtoRemovido.nome}' removido do catálogo.`);
+          } else {
+            alert(`Produto '${nome}' não encontrado no catálogo.`);
+          }
+        }
+      }
+
+      function main() {
+        const catalogo = new Catalogo();
+
+        while (true) {
+          const opcao = prompt(
+            "Escolha uma opção:\n1. Adicionar Produto\n2. Buscar Produto\n3. Atualizar Produto\n4. Visualizar Todos os Produtos\n5. Remover Produto\n6. Sair"
+          );
+
+          switch (opcao) {
+            case "1":
+              const nomeProduto = prompt("Nome do produto: ");
+              const preco = parseFloat(prompt("Preço do produto: "));
+              const descricao = prompt("Descrição do produto: ");
+              const produto = new Produto(nomeProduto, preco, descricao);
+              catalogo.adicionarProduto(produto);
+              break;
+
+            case "2":
+              const nomeBuscar = prompt("Nome do produto a buscar: ");
+              catalogo.buscarProduto(nomeBuscar);
+              break;
+
+            case "3":
+              const novoNome = prompt("Nome do produto a atualizar: ");
+              const novoPreco = parseFloat(prompt("Novo preço: "));
+              const novaDescricao = prompt("Nova descrição: ");
+              catalogo.atualizarProduto(novoNome, novoPreco, novaDescricao);
+              break;
+
+            case "4":
+              catalogo.visualizarTodosOsProdutos();
+              break;
+
+            case "5":
+              const removerNome = prompt("Nome do produto a remover: ");
+              catalogo.removerProduto(removerNome);
+              break;
+
+            case "6":
+              alert("Encerrando o programa.");
+              return;
+
+            default:
+              alert("Opção inválida. Tente novamente");
+          }
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>
